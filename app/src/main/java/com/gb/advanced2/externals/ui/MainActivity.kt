@@ -29,7 +29,19 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.main_activity)
         navigatorHolder = scope.get()
-
+        splashScreen.setOnExitAnimationListener { screen ->
+            val slideDown = ObjectAnimator.ofFloat(
+                screen.view,
+                View.TRANSLATION_Y,
+                0f,
+                -screen.view.height.toFloat(),
+            ).apply {
+                interpolator = AnticipateInterpolator()
+                duration = 2000
+                doOnEnd { screen.remove() }
+                start()
+            }
+        }
     }
 
     override fun onResumeFragments() {
